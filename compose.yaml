@@ -1,6 +1,9 @@
 services:
   apache:
-    build: ./apache
+    build:
+      context: ./apache
+      # uncomment for docker
+      # dockerfile: Containerfile
     ports:
       - "8081:80"
     env_file: .env
