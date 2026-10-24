@@ -1,0 +1,6 @@
+services:
+  apache:
+    build: ./apache
+    ports:
+      - "8081:80"
+    env_file: .env

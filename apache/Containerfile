@@ -1,0 +1,14 @@
+FROM quay.io/fedora/fedora:latest
+
+RUN dnf -y install httpd mod_auth_openidc && dnf clean all
+
+COPY db-dumps-oidc.conf /etc/httpd/conf.d/db-dumps-oidc.conf
+
+# Fake dumps so there's something to list and download
+RUN mkdir -p /var/www/html/infra/db-dumps && \
+    head -c 1M /dev/urandom > /var/www/html/infra/db-dumps/datanommer.dump.xz && \
+    head -c 1M /dev/urandom > /var/www/html/infra/db-dumps/koji.dump.xz && \
+    head -c 1M /dev/urandom > /var/www/html/infra/db-dumps/mailman.dump.xz
+
+EXPOSE 80
+CMD ["httpd", "-DFOREGROUND"]
